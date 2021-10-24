@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Role;
+use App\Models\Module;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -27,7 +29,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $modules = Module::all();
+        return view('backend.roles.form',compact('modules'));
     }
 
     /**
@@ -38,7 +41,17 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'  =>  'required|unique:roles',
+            'permissions'   =>  'required|array',
+            'permissions.*'   =>  'integer',
+        ]);
+        Role::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+        ])->permissions()->sync($request->input('permissions', []));
+        notify()->success('Role Successfully Added.', 'Added');
+        return redirect()->route('app.roles.index');
     }
 
     /**
@@ -60,7 +73,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        $modules = Module::all();
+        return view('backend.roles.form',compact('role','modules'));
     }
 
     /**
@@ -72,7 +86,13 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        $role->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+        ]);
+        $role->permissions()->sync($request->input('permissions', []));
+        notify()->success('Role Successfully Updated.', 'Updated');
+        return redirect()->route('app.roles.index');
     }
 
     /**
