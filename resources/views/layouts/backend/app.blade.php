@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     
     <link href="{{ asset('backend/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/iziToast.css') }}" rel="stylesheet">
     @stack('css')
 
     <!-- Styles -->
@@ -30,9 +31,12 @@
         </div>
     </div>
     <script type="text/javascript" src="{{ asset('backend') }}/assets/scripts/main.js"></script>
+
+    <script src="{{ asset('js/iziToast.js') }}"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/backend-extra-scripts.js') }}"></script>
     @stack('js')
+    @include('vendor.lara-izitoast.toast')
 </body>
 </html>
