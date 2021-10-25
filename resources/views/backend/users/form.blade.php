@@ -68,7 +68,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="******"  />
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" {{ !isset($user) ? 'required' : '' }} />
                                 @error('password')
                                   <span class="invalid-feedback" role="alert">
                                       <strong>{{ $message }}</strong>
@@ -77,7 +77,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="confirm_password">Confirm Password</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password_confirmation" id="confirm_password" placeholder="******"  />
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password_confirmation" id="confirm_password" {{ !isset($user) ? 'required' : '' }} />
                                 @error('password')
                                   <span class="invalid-feedback" role="alert">
                                       <strong>{{ $message }}</strong>
@@ -97,7 +97,7 @@
                               <label for="role">Select Role</label>
                               <select class="js-example-basic-single form-control @error('role') is-invalid @enderror" name="role" id="role">
                                   @foreach ($roles as $key=>$role)
-                                      <option value="{{ $role->id }}" selected="{{$user->role->id ?? null}}">{{ $role->name }}</option>
+                                      <option value="{{ $role->id }}" @isset($user) {{ $user->role->id == $role->id ? 'selected' : '' }} @endisset>{{ $role->name }}</option>
                                   @endforeach
                               </select>
                               @error('role')
@@ -108,7 +108,7 @@
                             </div>
                             <div class="form-group">
                               <label for="avatar">Avatar</label>
-                              <input type="file" class="form-control dropify @error('avatar') is-invalid @enderror" name="avatar" id="avatar" />
+                              <input type="file" data-default-file="{{ isset($user) ? $user->getFirstMediaUrl('avatar','thumb') : ''  }}" class="form-control dropify @error('avatar') is-invalid @enderror" name="avatar" id="avatar" />
                                 
                               @error('avatar')
                                   <span class="text-danger" role="alert">
@@ -117,13 +117,10 @@
                                 @enderror
                             </div>
 {{-- 
-                            <x-forms.dropify label="Avatar (Only Image are allowed)" name="avatar"
-                                value="{{ isset($user) ? $user->getFirstMediaUrl('avatar','thumb') : ''  }}" /> --}}
-{{-- 
                             <x-forms.checkbox label="Status" name="status" class="custom-switch"
                                 :value="$user->status ?? null" /> --}}
                                 <div class="custom-control custom-switch mb-4">
-                                    <input type="checkbox" name="status" class="custom-control-input" id="status" />
+                                    <input type="checkbox" name="status" class="custom-control-input" id="status" @isset($user) {{ $user->status == true ? 'checked' : '' }} @endisset />
                                     <label class="custom-control-label" for="status">Status</label>
 
                                   </div>

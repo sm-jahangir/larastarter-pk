@@ -103,6 +103,14 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        Gate::authorize('app.users.edit');
+        $this->validate($request, [
+            'name'  =>  'required|string|max:255',
+            'email'  =>  'required|string|email|max:255',
+            'role'  =>  'required',
+            'password'  =>  'nullable|confirmed|min:8',
+            'avatar'  =>  'nullable|image',
+        ]);
         $user->update([
             'role_id' => $request->role,
             'name' => $request->name,
