@@ -32,7 +32,7 @@ class UserController extends Controller
     public function create()
     {
         Gate::authorize('app.users.create');
-        $roles = Role::getForSelect();
+        $roles = Role::all();
         return view('backend.users.form', compact('roles'));
     }
 
@@ -44,6 +44,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('app.users.create');
+        $this->validate($request, [
+            'name'  =>  'required|string|max:255',
+            'email'  =>  'required|string|email|max:255|unique:users',
+            'role'  =>  'required',
+            'password'  =>  'required|confirmed|min:8',
+            'avatar'  =>  'required|image',
+        ]);
+        // return $request;
+
         $user = User::create([
             'role_id' => $request->role,
             'name' => $request->name,
@@ -51,6 +61,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'status' => $request->filled('status'),
         ]);
+        // return $user;
         // upload images
         if ($request->hasFile('avatar')) {
             $user->addMedia($request->avatar)->toMediaCollection('avatar');
