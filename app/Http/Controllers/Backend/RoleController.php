@@ -103,6 +103,12 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        if ($role->deletable) {
+            $role->delete();
+            notify()->success("Role Successfully Deleted", "Deleted");
+        } else {
+            notify()->error("You can\'t delete system role.", "Error");
+        }
+        return back();
     }
 }

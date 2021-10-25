@@ -32,7 +32,7 @@
     <script type="text/javascript" src="{{ asset('backend') }}/assets/scripts/main.js"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    
+    <script src="{{ asset('js/backend-extra-scripts.js') }}"></script>
     @stack('js')
 </body>
 </html>
