@@ -89,7 +89,7 @@
                                 {{Auth::user()->name}}
                             </div>
                             <div class="widget-subheading">
-                                VP People Manager
+                                {{Auth::user()->role->name}}
                             </div>
                         </div>
                         <div class="widget-content-right header-user-info ml-3">
