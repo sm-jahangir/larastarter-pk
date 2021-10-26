@@ -63,7 +63,7 @@
                             </td>
                             <td class="text-center">{{ $page->updated_at->diffForHumans() }}</td>
                             <td class="text-center">
-                                <a class="btn btn-info btn-sm" href=""><i
+                                <a class="btn btn-info btn-sm" href="{{ route('app.pages.edit', $page->id) }}"><i
                                         class="fas fa-edit"></i>
                                     <span>Edit</span>
                                 </a>
@@ -73,7 +73,7 @@
                                     <span>Delete</span>
                                 </button>
                                 <form id="delete-form-{{ $page->id }}"
-                                    action="" method="POST"
+                                    action="{{ route('app.pages.destroy', $page->id) }}" method="POST"
                                     style="display: none;">
                                     @csrf()
                                     @method('DELETE')

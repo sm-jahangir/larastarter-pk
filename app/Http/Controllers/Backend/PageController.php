@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Page;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -28,7 +29,8 @@ class PageController extends Controller
      */
     public function create()
     {
-        //
+        Gate::authorize('app.pages.create');
+        return view('backend.pages.form');
     }
 
     /**
@@ -39,7 +41,26 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' =>  'required|string|unique:pages',
+            'body'  =>  'required|string',
+            'image' =>  'nullable|image'
+        ]);
+        $page = Page::create([
+            'title' => $request->title,
+            'slug' => Str::slug($request->slug),
+            'excerpt' => $request->excerpt,
+            'body' => $request->body,
+            'meta_description' => $request->meta_description,
+            'meta_keywords' => $request->meta_keywords,
+            'status' => $request->filled('status'),
+        ]);
+        // upload images
+        if ($request->hasFile('image')) {
+            $page->addMedia($request->image)->toMediaCollection('image');
+        }
+        notify()->success('Page Successfully Added.', 'Added');
+        return redirect()->route('app.pages.index');
     }
 
     /**
@@ -84,6 +105,8 @@ class PageController extends Controller
      */
     public function destroy(Page $page)
     {
-        //
+        $page->delete();
+        notify()->success('Page Successfully Deleted.', 'Deleted');
+        return back();
     }
 }
