@@ -72,9 +72,9 @@
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true"
                                     class="dropdown-menu dropdown-menu-right">
-                                    <button type="button" tabindex="0" class="dropdown-item">User
-                                        Account</button>
-                                    <button type="button" tabindex="0" class="dropdown-item">Change Password</button>
+                                    <a href="{{ route('app.profile.index') }}" tabindex="0" class="dropdown-item">User
+                                        Account</a>
+                                    <a href="{{ route('app.profile.password.change') }}" tabindex="0" class="dropdown-item">Change Password</a>
                                     <button type="button" tabindex="0" class="dropdown-item">Settings</button>
                                     <div tabindex="-1" class="dropdown-divider"></div>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" tabindex="0" class="dropdown-item">{{ __('Logout') }}</a>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -35,6 +36,37 @@ class ProfileController extends Controller
         }
         // return with success msg
         notify()->success('Profile Successfully Updated.', 'Updated');
+        return redirect()->back();
+    }
+    
+    public function changePassword()
+    {
+        Gate::authorize('app.profile.password');
+        return view('backend.profile.security');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $this->validate($request, [
+            'current_password'  =>  'required|string|max:255',
+            'password'  =>  'required|confirmed',
+        ]);
+        
+        $hashedPassword = Auth::user()->password;
+        if (Hash::check($request->current_password, $hashedPassword)) {
+            if (!Hash::check($request->password, $hashedPassword)) {
+                Auth::user()->update([
+                    'password' => Hash::make($request->password)
+                ]);
+                Auth::logout();
+                notify()->success('Password Successfully Changed.', 'Success');
+                return redirect()->route('login');
+            } else {
+                notify()->warning('New password cannot be the same as old password.', 'Warning');
+            }
+        } else {
+            notify()->error('Current password not match.', 'Error');
+        }
         return redirect()->back();
     }
 }
