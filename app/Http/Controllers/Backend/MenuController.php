@@ -69,7 +69,8 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        //
+        Gate::authorize('app.menus.edit');
+        return view('backend.menus.form',compact('menu'));
     }
 
     /**
@@ -81,7 +82,16 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        //
+        $this->validate($request, [
+            'name' =>  'required|string|unique:menus,name,'.$menu->id,
+            'description' =>  'nullable|string'
+        ]);
+        $menu->update([
+            'name' => Str::slug($request->name),
+            'description' => $request->description,
+        ]);
+        notify()->success('Menu Successfully Updated.', 'Updated');
+        return redirect()->route('app.menus.index');
     }
 
     /**
@@ -92,6 +102,14 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        //
+        Gate::authorize('app.menus.destroy');
+        if ($menu->deletable == true)
+        {
+            $menu->delete();
+            notify()->success('Menu Successfully Deleted.', 'Deleted');
+        } else  {
+            notify()->error('Sorry you can\'t delete system menu.', 'Error');
+        }
+        return redirect()->back();
     }
 }
