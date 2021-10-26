@@ -11,3 +11,4 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
 Route::resource('backups', BackupController::class)->only(['index', 'store', 'destroy']);
+Route::delete('backups', [BackupController::class, 'clean'])->name('backups.clean');

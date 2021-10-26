@@ -26,7 +26,7 @@
                     </span>
                     {{ __('Clean Old Backups') }}
                 </button>
-                <form id="clean-old-backups" action="" method="POST" style="display: none;">
+                <form id="clean-old-backups" action="{{ route('app.backups.clean') }}" method="POST" style="display: none;">
                     @csrf
                     @method('DELETE')
                 </form>
@@ -70,10 +70,6 @@
                                 <td class="text-center">{{ $backup['file_size'] }}</td>
                                 <td class="text-center">{{ $backup['created_at'] }}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-info btn-sm" href=""><i
-                                            class="fas fa-download"></i>
-                                        <span>Download</span>
-                                    </a>
                                     <button type="button" class="btn btn-danger btn-sm"
                                             onclick="deleteData({{ $key }})">
                                         <i class="fas fa-trash-alt"></i>
