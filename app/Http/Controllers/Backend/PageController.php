@@ -69,9 +69,11 @@ class PageController extends Controller
      * @param  \App\Models\Page  $page
      * @return \Illuminate\Http\Response
      */
-    public function show(Page $page)
+    public function show($slug)
     {
-        //
+        // $page = Page::where('slug', $slug)->where('status', true)->firstOrFail();
+        //Amra chaile uporer code tao use korte pari ba model theke function create kore sekhane define kore diye shudhu akhane seta use korea er karone hocche code ke clean rakha.
+        return Page::findBySlug($slug);
     }
 
     /**

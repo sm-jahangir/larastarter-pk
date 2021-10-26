@@ -26,4 +26,4 @@ Route::resource('backups', BackupController::class)->only(['index', 'store', 'de
 Route::delete('backups', [BackupController::class, 'clean'])->name('backups.clean');
 
 //Page Route
-Route::resource('pages', PageController::class);
+Route::resource('pages', PageController::class)->only('index','create','store','edit','update','destroy');
