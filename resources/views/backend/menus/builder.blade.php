@@ -45,7 +45,7 @@
                 <h5 class="card-title">Drag and drop the menu Items below to re-arrange them.</h5>
                 <div class="dd">
                    <ol>
-                       @forelse ($menu->menuItems as $item)
+                       {{-- @forelse ($menu->menuItems as $item)
                            <li>
                                <span> {{$item->title}} </span>
                            </li>
@@ -53,7 +53,7 @@
                            <div class="text-center">
                             <strong>No Menu Items Found :)</strong>
                            </div>
-                       @endforelse
+                       @endforelse --}}
                    </ol>
                 </div>
             </div>
