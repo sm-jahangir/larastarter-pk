@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BackupController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\MenuBuilderController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('roles', RoleController::class);
@@ -31,3 +32,14 @@ Route::resource('pages', PageController::class)->only('index','create','store','
 
 //MenuController
 Route::resource('menus', MenuController::class)->except(['show']);
+Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}/'], function () {
+    Route::get('builder', [MenuBuilderController::class, 'index'])->name('builder');
+    // Menu Item
+    Route::group(['as' => 'item.', 'prefix' => 'item'], function () {
+        Route::get('/create', [MenuBuilderController::class, 'itemCreate'])->name('create');
+        Route::post('/store', [MenuBuilderController::class, 'itemStore'])->name('store');
+        Route::get('/{itemId}/edit', [MenuBuilderController::class, 'itemEdit'])->name('edit');
+        Route::put('/{itemId}/update', [MenuBuilderController::class, 'itemUpdate'])->name('update');
+        Route::delete('/{itemId}/destroy', [MenuBuilderController::class, 'itemDestroy'])->name('destroy');
+    });
+});
