@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
@@ -27,3 +28,6 @@ Route::delete('backups', [BackupController::class, 'clean'])->name('backups.clea
 
 //Page Route
 Route::resource('pages', PageController::class)->only('index','create','store','edit','update','destroy');
+
+//MenuController
+Route::resource('menus', MenuController::class)->except(['show']);
