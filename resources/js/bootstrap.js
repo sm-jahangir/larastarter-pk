@@ -4,6 +4,7 @@ window._ = require('lodash');
 try {
     window.$ = window.jQuery = require('jquery');
     window.Swal = require('sweetalert2');
+    require('nestable2/jquery.nestable');
 } catch (e) {}
 
 

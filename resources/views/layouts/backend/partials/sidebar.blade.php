@@ -64,6 +64,12 @@
                         Pages
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('app.menus.index')}}" class="{{Request::is('app/menus*') ? 'mm-active' : ''}}">
+                        <i class="metismenu-icon pe-7s-check"></i>
+                        Menus
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
