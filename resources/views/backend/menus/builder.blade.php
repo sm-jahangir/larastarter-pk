@@ -44,33 +44,43 @@
             <div class="card-body menu-builder">
                 <h5 class="card-title">Drag and drop the menu Items below to re-arrange them.</h5>
                 <div class="dd">
-                   <ol>
-                       @forelse ($menu->menuItems as $item)
-                           <li>
-                               @if ($item->type == 'divider')
-                                   <strong>{{ $item->divider_title }}</strong>
-                               @else
-                               <span> {{$item->title}} </span>
-                               @endif
-                               <a href="{{ route('app.menus.item.edit',['id'=>$menu->id, 'itemId'=>$item->id]) }}" class="btn btn-info btn-sm">
-                            <i class="fas fa-edit"></i>
-                            <span>Edit</span>
-                          </a>
-                          <button type="button" onclick="deleteData({{ $item->id }})" class="btn btn-danger btn-sm">
-                              <i class="fas fa-trash-alt    "></i>
-                              <span>Delete</span>
-                          </button>
-                          <form action="{{ route('app.menus.item.destroy', ['id'=>$menu->id, 'itemId'=>$item->id]) }}" method="POST" id="delete-form-{{ $item->id }}" style="display: none">
-                              @csrf
-                              @method('DELETE')
-                          </form>
-                           </li>
-                       @empty
-                           <div class="text-center">
+                    <ol class="dd-list">
+                        @forelse ($menu->menuItems as $item)
+                        <li class="dd-item" data-id="{{ $item->id }}">
+                            <div class="pull-right item_actions">
+                                <a href="{{ route('app.menus.item.edit',['id'=>$menu->id, 'itemId'=>$item->id]) }}"
+                                    class="btn btn-info btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Edit</span>
+                                </a>
+                                <button type="button" onclick="deleteData({{ $item->id }})"
+                                    class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt    "></i>
+                                    <span>Delete</span>
+                                </button>
+                                <form
+                                    action="{{ route('app.menus.item.destroy', ['id'=>$menu->id, 'itemId'=>$item->id]) }}"
+                                    method="POST" id="delete-form-{{ $item->id }}" style="display: none">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </div>
+                            <div class="dd-handle">
+                                @if ($item->type == 'divider')
+                                    <strong>Divider: {{ $item->divider_title }}</strong>
+                                @else
+                                    <span> {{$item->title}} </span>
+                                    <small class="url">{{ $item->url }}</small>
+                                @endif
+                            </div>
+
+                        </li>
+                        @empty
+                        <div class="text-center">
                             <strong>No Menu Items Found :)</strong>
-                           </div>
-                       @endforelse
-                   </ol>
+                        </div>
+                        @endforelse
+                    </ol>
                 </div>
             </div>
             <!-- /.card-body -->
@@ -81,5 +91,10 @@
 @endsection
 
 @push('js')
-
+<script>
+    $('.dd').nestable({maxDepth:2});
+    $('.dd').on('change', function(e){
+        console.log(JSON.stringify($('.dd').nestable('serialize')));
+    })
+</script>
 @endpush
