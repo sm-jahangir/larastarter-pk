@@ -44,4 +44,26 @@ class MenuBuilderController extends Controller
         notify()->success('Menu Item Successfully Added.', 'Added');
         return redirect()->route('app.menus.builder',$menu->id);
     }
+    public function itemEdit($menuId, $itemId)
+    {
+        Gate::authorize('app.menus.edit');
+        $menu = Menu::findOrFail($menuId);
+        $menuItem = $menu->menuItems()->findOrFail($itemId);
+        // return $menuItem;
+        return view('backend.menus.item.form',compact('menu','menuItem'));
+    }
+    public function itemUpdate(Request $request, $menuId, $itemId)
+    {
+        $menu = Menu::findOrFail($menuId);
+        $menu->menuItems()->findOrFail($itemId)->update([
+            'type' => $request->type,
+            'title' => $request->title,
+            'divider_title' => $request->divider_title,
+            'url' => $request->url,
+            'target' => $request->target,
+            'icon_class' => $request->icon_class
+        ]);
+        notify()->success('Menu Item Successfully Updated.', 'Updated');
+        return redirect()->route('app.menus.builder',$menu->id);
+    }
 }

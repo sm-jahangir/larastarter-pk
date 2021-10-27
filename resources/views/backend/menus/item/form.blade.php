@@ -48,9 +48,9 @@
                     <div class="form-group">
                         <label for="type">Type</label>
                         <select class="custom-select" id="type" name="type" onchange="setItemType()">
-                            <option value="item" @isset($menuItem) {{ $menuItem == 'item' ? 'selected' : '' }}
+                            <option value="item" @isset($menuItem) {{ $menuItem->type == 'item' ? 'selected' : '' }}
                                 @endisset>Menu Item</option>
-                            <option value="divider" @isset($menuItem) {{ $menuItem == 'divider' ? 'selected' : '' }}
+                            <option value="divider" @isset($menuItem) {{ $menuItem->type == 'divider' ? 'selected' : '' }}
                                 @endisset>Divider</option>
                         </select>
                     </div>

@@ -45,15 +45,31 @@
                 <h5 class="card-title">Drag and drop the menu Items below to re-arrange them.</h5>
                 <div class="dd">
                    <ol>
-                       {{-- @forelse ($menu->menuItems as $item)
+                       @forelse ($menu->menuItems as $item)
                            <li>
+                               @if ($item->type == 'divider')
+                                   <strong>{{ $item->divider_title }}</strong>
+                               @else
                                <span> {{$item->title}} </span>
+                               @endif
+                               <a href="{{ route('app.menus.item.edit',['id'=>$menu->id, 'itemId'=>$item->id]) }}" class="btn btn-info btn-sm">
+                            <i class="fas fa-edit"></i>
+                            <span>Edit</span>
+                          </a>
+                          <button type="button" onclick="deleteData({{ $item->id }})" class="btn btn-danger btn-sm">
+                              <i class="fas fa-trash-alt    "></i>
+                              <span>Delete</span>
+                          </button>
+                          <form action="{{ route('app.menus.item.destroy', ['id'=>$menu->id, 'itemId'=>$item->id]) }}" method="POST" id="delete-form-{{ $item->id }}" style="display: none">
+                              @csrf
+                              @method('DELETE')
+                          </form>
                            </li>
                        @empty
                            <div class="text-center">
                             <strong>No Menu Items Found :)</strong>
                            </div>
-                       @endforelse --}}
+                       @endforelse
                    </ol>
                 </div>
             </div>
