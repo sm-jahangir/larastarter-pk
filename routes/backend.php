@@ -34,6 +34,7 @@ Route::resource('pages', PageController::class)->only('index','create','store','
 Route::resource('menus', MenuController::class)->except(['show']);
 Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}/'], function () {
     Route::get('builder', [MenuBuilderController::class, 'index'])->name('builder');
+    Route::post('order', [MenuBuilderController::class, 'order'])->name('order');
     // Menu Item
     Route::group(['as' => 'item.', 'prefix' => 'item'], function () {
         Route::get('/create', [MenuBuilderController::class, 'itemCreate'])->name('create');
