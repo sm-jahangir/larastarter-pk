@@ -66,4 +66,14 @@ class MenuBuilderController extends Controller
         notify()->success('Menu Item Successfully Updated.', 'Updated');
         return redirect()->route('app.menus.builder',$menu->id);
     }
+    public function itemDestroy($menuId, $itemId)
+    {
+        Gate::authorize('app.menus.destroy');
+        Menu::findOrFail($menuId)
+            ->menuItems()
+            ->findOrFail($itemId)
+            ->delete();
+        notify()->success('Menu Item Successfully Deleted.', 'Deleted');
+        return redirect()->back();
+    }
 }
