@@ -14,7 +14,9 @@ use App\Http\Controllers\Backend\PageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/test', function () {
+    return menu('backend-sidebar');
+});
 Route::get('/', function () {
     return view('welcome');
 });
