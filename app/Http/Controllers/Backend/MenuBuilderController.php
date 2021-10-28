@@ -79,15 +79,19 @@ class MenuBuilderController extends Controller
     public function itemEdit($menuId, $itemId)
     {
         Gate::authorize('app.menus.edit');
+        // $menu = Menu::findOrFail($menuId);
+        // $menuItem = $menu->menuItems()->findOrFail($itemId);
+        // // return $menuItem;
+        // return view('backend.menus.item.form',compact('menu','menuItem'));
+
         $menu = Menu::findOrFail($menuId);
-        $menuItem = $menu->menuItems()->findOrFail($itemId);
-        // return $menuItem;
-        return view('backend.menus.item.form',compact('menu','menuItem'));
+        $menuItem = MenuItem::where('menu_id', $menu->id)->findOrFail($itemId);
+        return view('backend.menus.item.form', compact('menu', 'menuItem'));
     }
     public function itemUpdate(Request $request, $menuId, $itemId)
     {
         $menu = Menu::findOrFail($menuId);
-        $menu->menuItems()->findOrFail($itemId)->update([
+        $menuItem = MenuItem::where('menu_id', $menu->id)->findOrFail($itemId)->update([
             'type' => $request->type,
             'title' => $request->title,
             'divider_title' => $request->divider_title,
@@ -101,10 +105,13 @@ class MenuBuilderController extends Controller
     public function itemDestroy($menuId, $itemId)
     {
         Gate::authorize('app.menus.destroy');
-        Menu::findOrFail($menuId)
-            ->menuItems()
-            ->findOrFail($itemId)
-            ->delete();
+        
+        $menu = Menu::findOrFail($menuId);
+        MenuItem::where('menu_id', $menu->id)->findOrFail($itemId)->delete();
+        // Menu::findOrFail($menuId)
+        //     ->menuItems()
+        //     ->findOrFail($itemId)
+        //     ->delete();
         notify()->success('Menu Item Successfully Deleted.', 'Deleted');
         return redirect()->back();
     }

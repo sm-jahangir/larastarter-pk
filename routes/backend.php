@@ -10,7 +10,7 @@ use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\MenuBuilderController;
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
 
