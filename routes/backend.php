@@ -56,5 +56,8 @@ Route::group(['as' => 'settings.', 'prefix' => 'settings'], function() {
     Route::get('appearance', [SettingController::class, 'appearance'])->name('appearance.index');
     Route::patch('appearance', [SettingController::class, 'updateAppearance'])->name('appearance.update');
 
+    //Mail Settings
+    Route::get('mail', [SettingController::class, 'mail'])->name('mail.index');
+    Route::patch('mail', [SettingController::class, 'updateMailSettings'])->name('mail.update');
 
 });
