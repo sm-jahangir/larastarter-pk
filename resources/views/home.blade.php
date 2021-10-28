@@ -15,6 +15,8 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <br>
+                    <img src="{{ Storage::url(setting('site_logo')) }}" alt="Logo">
                 </div>
             </div>
         </div>

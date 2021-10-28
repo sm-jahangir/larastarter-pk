@@ -48,6 +48,13 @@ Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}/'], function () {
 
 // Settings
 Route::group(['as' => 'settings.', 'prefix' => 'settings'], function() {
+
     Route::get('general', [SettingController::class, 'general'])->name('general');
     Route::patch('general', [SettingController::class, 'update'])->name('update');
+    
+    //Appearance
+    Route::get('appearance', [SettingController::class, 'appearance'])->name('appearance.index');
+    Route::patch('appearance', [SettingController::class, 'updateAppearance'])->name('appearance.update');
+
+
 });
