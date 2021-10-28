@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\BackupController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\MenuBuilderController;
+use App\Http\Controllers\Backend\SettingController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('roles', RoleController::class);
@@ -43,4 +44,10 @@ Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}/'], function () {
         Route::put('/{itemId}/update', [MenuBuilderController::class, 'itemUpdate'])->name('update');
         Route::delete('/{itemId}/destroy', [MenuBuilderController::class, 'itemDestroy'])->name('destroy');
     });
+});
+
+// Settings
+Route::group(['as' => 'settings.', 'prefix' => 'settings'], function() {
+    Route::get('general', [SettingController::class, 'general'])->name('general');
+    Route::patch('general', [SettingController::class, 'update'])->name('update');
 });
