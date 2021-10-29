@@ -71,7 +71,7 @@ class SettingController extends Controller
         notify()->success('Settings Successfully Updated.','Success');
         return back();
     }
-    
+
     private function deleteOldLogo($path)
     {
         Storage::disk('public')->delete($path);
@@ -111,6 +111,48 @@ class SettingController extends Controller
         Artisan::call("env:set MAIL_ENCRYPTION='". $request->mail_encryption ."'");
         Artisan::call("env:set MAIL_FROM_ADDRESS='". $request->mail_from_address ."'");
         Artisan::call("env:set MAIL_FROM_NAME='". $request->mail_from_name ."'");
+        notify()->success('Settings Successfully Updated.','Success');
+        return back();
+    }
+
+    public function socialite()
+    {
+        return view('backend.settings.socialite');
+    }
+
+    public function updatesocialiteSettings(Request $request)
+    {
+        $this->validate($request, [
+            'facebook_client_id' => 'nullable|max:255',
+            'facebook_client_secret' => 'nullable|max:255',
+
+            'google_client_id' => 'nullable|max:255',
+            'google_client_secret' => 'nullable|max:255',
+
+            'github_client_id' => 'nullable|max:255',
+            'github_client_secret' => 'nullable|max:255',
+        ]);
+        Setting::updateOrCreate(['name' => 'facebook_client_id'], ['value' => $request->get('facebook_client_id')]);
+        Setting::updateOrCreate(['name' => 'facebook_client_secret'], ['value' => $request->get('facebook_client_secret')]);
+
+        Setting::updateOrCreate(['name' => 'google_client_id'], ['value' => $request->get('google_client_id')]);
+        Setting::updateOrCreate(['name' => 'google_client_secret'], ['value' => $request->get('google_client_secret')]);
+
+        Setting::updateOrCreate(['name' => 'github_client_id'], ['value' => $request->get('github_client_id')]);
+        Setting::updateOrCreate(['name' => 'mail_encryption'], ['value' => $request->get('mail_encryption')]);
+        Setting::updateOrCreate(['name' => 'mail_from_address'], ['value' => $request->get('mail_from_address')]);
+        Setting::updateOrCreate(['name' => 'github_client_secret'], ['value' => $request->get('github_client_secret')]);
+
+        // Update .env file
+        Artisan::call("env:set FACEBOOK_CLIENT_ID='". $request->facebook_client_id ."'");
+        Artisan::call("env:set FACEBOOK_CLIENT_SECRET='". $request->facebook_client_secret ."'");
+
+        Artisan::call("env:set GOOGLE_CLIENT_ID='". $request->google_client_id ."'");
+        Artisan::call("env:set GOOGLE_CLIENT_SECRET='". $request->google_client_secret ."'");
+
+        Artisan::call("env:set GITHUB_CLIENT_ID='". $request->github_client_id ."'");
+        Artisan::call("env:set GITHUB_CLIENT_SECRET='". $request->github_client_secret ."'");
+
         notify()->success('Settings Successfully Updated.','Success');
         return back();
     }
