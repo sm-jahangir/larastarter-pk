@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,12 +11,13 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/frontend.js', 'public/js')
-    .js('resources/js/backend-extra-scripts.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/frontend.scss', 'public/css')
-    .scripts([
-        'resources/js/backend-extra-scripts.js'
-    ], 'public/js/backend-extra-scripts.js')
+mix.js("resources/js/app.js", "public/js")
+    .js("resources/js/frontend.js", "public/js")
+    .js("resources/js/backend-extra-scripts.js", "public/js")
+    .sass("resources/sass/app.scss", "public/css")
+    .sass("resources/sass/frontend.scss", "public/css")
+    .scripts(
+        ["resources/js/backend-extra-scripts.js"],
+        "public/js/backend-extra-scripts.js"
+    )
     .sourceMaps();
